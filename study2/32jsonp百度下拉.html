@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script src="ajax.js"></script>
+<script src="js/angular.js"></script>
+<script>
+var app=angular.module('test', []);
+
+app.controller('cont1', function ($scope, $http){
+	$scope.str='';
+	$scope.arr=[];
+	
+	$scope.$watch('str', function (){
+		$http.jsonp('http://suggestion.baidu.com/su', {params: {
+			wd: $scope.str,
+			cb: 'JSON_CALLBACK'
+			/*
+			重要的是 ‘cb‘ 这个参数名
+		    但是angualr规定参数值必须是JSON_CALLBACK
+		    */
+		}}).success(function (json){
+			//alert(json.s);
+			$scope.arr=json.s;
+		}).error(function (){
+			alert('失败了');
+		});
+	});
+});
+</script>
+</head>
+
+<body ng-controller="cont1">
+	<input type="text" ng-model="str" />
+    <ul>
+    	<li ng-repeat="s in arr">{{s}}</li>
+    </ul>
+
+百度==》查询：https://sp0.baidu.com/su?wd=123&cb=show
+
+
+百度==》结果：show({q:"123",p:false,s:["12306","12306铁路客户服务中心","12308汽车订票官网","12306火车票网上订票官网","12333","12345","12305","12320","12315","12333社保查询网"]});
+
+
+360==》https://sug.so.360.cn/suggest?callback=suggest_so&word=123
+
+360==》 suggest_so({q:"123",p:true,s:["12306","123网址之家","12306网上订火车票官网","12308网上订票官网","12306火车票网上订票查询","123网址大全","12306火车查询","12306网上订票查询","12306官网","12306铁路客户服务中心"]});
+</body>
+</html>
+
+
+
+
+
+

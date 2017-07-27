@@ -1,0 +1,47 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script src="ajax.js"></script>
+<script src="js/angular.js"></script>
+<script>
+var app=angular.module('test', []);
+
+app.controller('cont1', function ($scope, $http){
+	$scope.result=0;
+	
+	/*$http.get('a.php', {params: {a: 12, b: 99}}).success(function (res){
+		$scope.result=res;
+	}).error(function (){
+	});*/
+	
+	ajax({
+		url: 'a.php',
+		type: 'get',
+		data: {a: 12, b: 99},
+		success: function (res){
+			$scope.result=res;
+			$scope.$apply();//强制刷新
+		}
+	});
+	/* 
+	  不能用原生的ajax ，这样就脱离了angular体系了 他不知道数据变化了。
+	  注意：在Angular方法之外修改数据，视图不会更新  ====》解决 $scope.$apply();
+      实例：原生Ajax使用
+    */
+});
+</script>
+</head>
+
+<body ng-controller="cont1">
+	{{result}}
+</body>
+</html>
+
+
+
+
+
+
+

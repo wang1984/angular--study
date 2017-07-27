@@ -1,0 +1,102 @@
+class两种写法
+1.直接写		class="{{xxx}}"
+2.数组			ng-class="arr"
+
+style两种写法
+1.直接写		style="{{xxx}}"
+2.json			ng-style="json"
+
+
+ng-if="条件"	删除元素
+
+ng-show=""		显示
+ng-hide=""		隐藏
+
+
+控制器——Controller
+1.数据
+
+ng-repeat 与 ng-事件、赋值	不能见面——用函数倒一下
+
+
+$scope作用域对象
+	可添加、可获取
+	可监视：
+		$scope.$watch("名称", function (){
+			//变了干什么
+		}, 深度监视);
+angualr中所有的数据都在$scope中
+
+========
+<script>
+var app=angular.module('test', []);
+
+app.controller('cont1', function ($scope){
+	$scope.show=function (){
+		alert($scope.a);
+	};
+});
+/*angualr中所有的数据都在$scope中*/
+</script>
+</head>
+
+<body ng-init="a=12" ng-controller="cont1">
+    
+	<input type="button" value="按钮" ng-click="show();" />
+</body>
+========
+
+3.$http数据交互
+	$http.get(url, {params}).success(function (数据){}).error();
+	$http.post...
+	$http.jsonp(url, {params: {..., cb: 'JSON_CALLBACK'}}).success().error();
+
+$http.get(url, {params: {}}).success().error();
+$http.post(url, {params: {}}).success().error();
+$http.jsonp(url, {params: {}}).success().error();
+
+
+实例：定时器的使用
+	强制更新：$scope.$apply();
+	另一种方法：Angular定时器
+		var timer=$interval(fn, 时间);
+		var timer=$timeout(fn, 时间);
+
+		清除：
+			$interval.cancel(timer);
+			$timeout.cancel(timer);
+
+setInterval(function (){
+		$scope.a++;
+		$scope.$apply();
+		//console.log($scope.a);
+	}, 1000);
+
+
+
+<script>
+var app=angular.module('test', []);
+
+app.controller('cont1', function ($scope, $http, $interval){
+	$scope.a=0;
+	
+	/*setInterval(function (){
+		$scope.a++;
+		$scope.$apply();
+		//console.log($scope.a);
+	}, 50);*/
+	
+	$interval(function (){
+		$scope.a++;
+	}, 50);
+	//angualr自己的定时器就不需要强制更新
+});
+</script>	
+
+
+
+
+
+
+
+

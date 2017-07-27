@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('test', []);
+/*2.依赖注入
+	普通函数：由调用方决定参数
+	ng函数：由定义方决定参数（但是名字不能乱取）*/
+app.controller('cont1', function ($scope){
+	$scope.a=12;
+});
+</script>
+</head>
+
+<body ng-controller="cont1">
+<span>{{a}}</span>
+</body>
+</html>
